@@ -1,0 +1,7 @@
+3/19/92
+   Bug in RxSetFh for 1.3 fixed.
+
+3/5/92
+   Bug in RxQueryFileSystem for 1.3 fixed (RXQFS).
+
+

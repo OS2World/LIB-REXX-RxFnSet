@@ -1,0 +1,58 @@
+
+ RXFN16
+
+ Start     Length     Name                   Class
+ 0001:0000 0011EH     RXSETFH_TEXT           CODE
+ 0001:011E 000D7H     RXKILL_TEXT            CODE
+ 0001:01F6 000BFH     RXWCARD_TEXT           CODE
+ 0001:02B6 00125H     RXQFS_TEXT             CODE
+ 0001:03DC 003A5H     RXTSKLST_TEXT          CODE
+ 0001:0782 015EAH     _TEXT                  CODE
+ 0001:1D6C 00000H     C_ETEXT                ENDCODE
+ 0002:0000 00100H     THREADDATA             THREADDATASEG
+ 0003:0000 00850H     LOCKS                  LOCKSEG
+ 0004:0000 00200H     FAR_BSS                FAR_BSS
+ 0005:0000 00042H     NULL                   BEGDATA
+ 0005:0042 00728H     _DATA                  DATA
+ 0005:076A 0000EH     CDATA                  DATA
+ 0005:0778 00000H     XIFB                   DATA
+ 0005:0778 00000H     XIF                    DATA
+ 0005:0778 00000H     XIFE                   DATA
+ 0005:0778 00000H     XIB                    DATA
+ 0005:0778 00000H     XI                     DATA
+ 0005:0778 00000H     XIE                    DATA
+ 0005:0778 00000H     XPB                    DATA
+ 0005:0778 00004H     XP                     DATA
+ 0005:077C 00000H     XPE                    DATA
+ 0005:077C 00000H     XCB                    DATA
+ 0005:077C 00000H     XC                     DATA
+ 0005:077C 00000H     XCE                    DATA
+ 0005:077C 00000H     XCFB                   DATA
+ 0005:077C 00000H     XCF                    DATA
+ 0005:077C 00000H     XCFE                   DATA
+ 0005:077C 00000H     CONST                  CONST
+ 0005:077C 00008H     HDR                    MSG
+ 0005:0784 0013AH     MSG                    MSG
+ 0005:08BE 00002H     PAD                    MSG
+ 0005:08C0 00001H     EPAD                   MSG
+ 0005:08C2 0000CH     _BSS                   BSS
+ 0005:08CE 00000H     XOB                    BSS
+ 0005:08CE 00000H     XO                     BSS
+ 0005:08CE 00000H     XOE                    BSS
+ 0005:08D0 00000H     c_common               BSS
+ 0005:08D0 00000H     STACK                  STACK
+
+ Origin   Group
+ 0005:0   DGROUP
+ 0003:0   LOCKGRP
+ 0002:0   THREADDATAGRP
+
+ Address   Export                  Alias
+
+ 0001:011E RXKILLPROCESS           RXKILLPROCESS
+ 0001:02B6 RXQUERYFILESYSTEM       RXQUERYFILESYSTEM
+ 0001:0000 RXSETFH                 RXSETFH
+ 0001:04BA RXTASKLIST              RXTASKLIST
+ 0001:01F6 RXWILDCARD              RXWILDCARD
+
+Program entry point at 0001:0792

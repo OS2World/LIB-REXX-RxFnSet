@@ -1,0 +1,274 @@
+  RXFNSET PACKAGE                                                              
+  Version 1.4
+  RXFNSET for OS/2 Version 1.x or 2.x                                          
+                                                                                
+
+  I committed this package in my own time and support it in my own time,
+  please be gentle :-)
+
+  I was thinking about writing some of included functions for a long
+  time, but for myself I always found that I can work it around.
+  But once there was no other way.  After the first one, the next were
+  easy ... with a little help from my friends :-)  
+
+  SOURCE CODE 
+         If you want to obtain source code by:
+         REQUEST RXFNSRC FROM CONT06 AT LEXVM2
+
+  PLEASE
+         send me all comments you have, especialy negative, 
+         directly to me, or append them to REXXOS2 forum (accepted
+         by Rick McGuire - forum owner)  
+
+
+  This package consist of following FUNCTIONS:
+     RxSetFH           - to set new number of FH for process OS/2 1.x & 2.x.
+     RxAddFH           - to add number of FH to the set already available 
+                            2.x ONLY.
+     RxKillProcess     - for killing OS/2 process by PID
+     RxWildCard        - for editing name with wild card
+     RxQueryFileSystem - for information on file system for drive
+     RxTaskList        - for information on active tasks and theirs PIDs
+
+  You will find some useful examples included.  You can, for example, set number of FH
+  available from OS/2 prompt before calling your program and it will remain
+  available till OS/2 session is closed.  There is no way, known to me, to
+  decrease number of once assigned FH.  If you know one, please let me know 
+  I'll add new function to this package.  If you need another CP function
+  to be called from REXX let me know.
+
+  NOTES:
+     All functions are kept in dual form (16 and 32 bit).  But if you haven't
+     fully move to OS/2 2.x (support, develope for 1.x) you can use only 16 
+     bit vwersion which will work on 2.x system too.  There is one exception.
+     RxAddFH function works only for 2.x because it uses Kernel calls with
+     no equvalents in erlier version of OS/2.
+
+
+* KNOWN PROBLEMS:
+
+!!! RxQueryFileSystem 1.x ONLY BECAUSE OF 2.0 BUG  
+    2.0 version always returns empty string        
+    Wait for next release of Toolkit (?) System (?)
+
+
+
+  INSTALLATION:
+     For OS/2 1.x or 2.x  Put RXFH16.DLL into your LIBPATH.                            
+     For OS/2 2.x         Put RXFH32.DLL into your LIBPATH.                            
+                                                                                
+  FILES INCLUDED:
+      RXADDFH  CMD  -  2.x example, of RXADDFH, usefull for command line 
+                       FH change
+      RXFN16   DLL  -  Put this in your LIBPATH for OS/2 1.x
+      RXFN32   DLL  -  Put this in your LIBPATH for OS/2 2.x
+      RXFNSET  DOC  -  You are reading it now
+      RXKILL16 CMD  -  1.x example of RxKillProcess, usefull from command 
+                       line too
+      RXKILL32 CMD  -  2.x example of RxKillProcess
+      RXQFS16  CMD  -  2.x example of RxQueryFileSystem, check file system
+                       for device (FAT, HPFA, LAN)
+      RXQFS32  CMD  -  2.x example of RxQueryFileSystem
+      RXSFH16  CMD  -  1.x example of RxSetFH, usefull for command line FH
+                       change
+      RXSFH32  CMD  -  2.x example of RxSetFH
+      RXTLST16 CMD  -  1.x example of RxTaskLisl use, in opposite to PSTAT
+                       generate simple, easy to read, output 
+      RXTLST32 CMD  -  2.x example of RxTaskList 
+      RXWCRD16 CMD  -  1.x example of RxWilsCard editing
+      RXWCRD32 CMD  -  2.x example of RxWildCard editing
+
+
+  DISCLAIMER:
+       All support and plans for future are subject to:  
+
+       1) public response to this package, 
+       2) my time, since this is my own time and pleasure, 
+       3) my availability, because I am only a contractor (end of May 92 ?)
+
+
+  PLANS FOR THE FUTURE:
+  - Add more different functions (how about most or all of CP Calls ?!)
+    and change name of this package, or make somebody to glue it to one 
+    already existing.
+
+
+
+
+
+  DESCRIPTION of FUNCTIONS INCLUDED:
+
+
+
+  -- RxAddFH - is a REXX external function (written in C) which 
+               will add number of available File Handles to the 
+               number of currently available for Process. 
+        
+               PARAMETERS ACCEPTED:
+               - Number of requested File Handles to add
+
+               USAGE:
+
+                  Call RxFuncAdd 'RXADDFH', 'RXFH32', 'RXADDFH'
+                  Call RxAddFH Number
+               or rc = RxAddFH(Number)
+                  /* remember to check result */
+               where:
+               Number - Number of requested file handles
+                                                                                
+             OTHER INFO:                                                                   
+               - RXADDFH called with parameter 0 (zero) will return 
+                 number of currently allocated FH.  See RXADDFH.CMD 
+                 for use example.
+
+             RETURNS:
+               - Number of allocated File Handles, that is the total
+                 number after adding what was requested, or maximum what 
+                 was able to allocate.  
+                 0 - if there was parameter error.
+                                                                                
+
+
+  -- RxKillProcess - is a REXX external function (written in C) which 
+               will kill OS/2 proces of given decimal PID (Process ID)
+        
+               PARAMETERS ACCEPTED:
+               - PID number in decimal
+
+               USAGE:
+
+                  Call RxFuncAdd ....
+                  Call RxKillProcess(Pid)
+               or rc = RxKillProcess(Pid)
+                  /* remember to check result */
+               where:
+               Pid - PID of process to kill
+                                                                                
+             OTHER INFO:                                                                   
+               - be carefull
+
+             RETURNS:
+               - Return code from CP call DosKillProcess:
+
+                         - 0  - operation succesfully completed             */
+                           13 - ERROR_INVALID_DATA                          */
+                           303- ERROR_INVALID_PROCID                        */
+                           305- ERROR_NOT_DESCENDANT                        */
+                                                                            */
+
+
+  -- RxQueryFileSystem - is a REXX external function (written in C) which 
+               will return file system name (FAT, HPFS ... )
+               It uses DosQueryFSAttach CP call.
+        
+               PARAMETERS ACCEPTED:
+               - Drive   - in form of D: (drive letter followed by a colon).
+
+               USAGE:
+
+                  Call RxFuncAdd ....
+                  Result = RxQueryFileSystem("D:");
+                  
+                  Result - Name of File System attached to the specified drive.
+
+             OTHER INFO:                                                                   
+               - temporary NOT WORKING CORRECTLY for 2.0 - due to System or
+                 Toolkit problem RxQueryFileSyste always returns empty string.
+
+             RETURNS:
+               - File System Name (FAT, HPFS ..... )
+
+
+                                                                                
+ --  RxSetFH - is a REXX external function (written in C) which 
+               will change number of available File Handles for 
+               Process. 
+        
+             PARAMETERS ACCEPTED:
+               - Number of requested file handles
+
+             USAGE:
+
+                  Call RxFuncAdd 'RXSETFH', 'RXFH16', 'RXSETFH'
+                  Call RxSetFH Number
+               or rc = RxSetFH(Number)
+                  /* remember to check result */
+               where:
+               Number - Number of requested file handles
+
+             OTHER INFO:                                                                   
+               - Please notice that error will be returned 
+                 if number of requested file handles is less than 
+                 currently available
+
+             RETURNS:
+               0  - operation successfully completed             
+               8  - Not Enough memory                          
+               87 - Invalid parameter                           
+                                                                
+                                                                                
+
+ --  RxTaskList - is a REXX external function (written in C) which 
+               will return a list of tasks active in the system and their 
+               PIDs.  Uses WinQuerySwitchList, and works for non PM as well
+               as for PM. 
+        
+               PARAMETERS ACCEPTED:
+               - None
+
+               USAGE:
+
+                  Call RxFuncAdd ....
+                  Result = RxWildCard()
+
+             OTHER INFO:                                                                   
+               - Be aware that you are not able to identify your REXX program
+                 running in another session.  Main process remains to be CMD.EXE
+                 There is a workaround.  You need a .EXE to call REXX interpretter.
+                 You can use for that purpose Pat Mueller's RUNMACRO package,
+                 generate RUNMACRO.EXE, rename it to any name and call your  
+                 REXX program by RUNMACRO (>RUNMACRO MYREXX).  Request RUNMACRO
+                 from Pat, or drop me a note, I'll send you ready .EXE.
+
+             RETURNS:
+               - PID.   - stem - where PID.0 - number of processes (elements)
+                                    PID.1 - PID of name in ENTRY.1 
+                                    ................................
+               - ENTRY. - stem - where ENTRY.0 - number of processes (elems.)
+                                    ENTRY.1 - Name of main program (PID.1)
+                                    ................................
+               - Result - is the number of returned entries (same as PID.0
+                          end ENTRY.0)
+
+ --  RxWildCard - is a REXX external function (written in C) which 
+               will edit name with wildcard to help you copy/move ....
+               or simply audit user entry.  It uses DosEditName CP
+               call, so it accept full wildcard specification with
+               multi level <.> (dots), <*> and <?>.  
+        
+               PARAMETERS ACCEPTED:
+               - Source   - your name to be edited
+               - WildCard - Wild Card specification
+
+               USAGE:
+
+                  Call RxFuncAdd ....
+                  Result = RxWildCard(Source, WildCard)
+                  Where                                                              
+                  Source   - your name to be edited
+                  WildCard - Wild Card specification
+                  Result   - Source Edited with WildCard
+
+             OTHER INFO:                                                                   
+               - it can be used to chect if specified name matches wildcard
+                 (or opposite) by comparing Result with Source.  If they are
+                 the same after editing - match is true.  Purpose for writing
+                 this function first time was to check REXX variables against
+                 wild card specyfication.  
+
+             RETURNS:
+               - Source Edited with WildCard
+
+
+Leshek Fiedorowicz Feb 7, 1992
+
